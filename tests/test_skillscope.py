@@ -3233,12 +3233,12 @@ class TestTheTranscriptIsReadTooNotJustTheMessages(unittest.TestCase):
     """
 
     class Call:
-        def __init__(self, function, arguments):
-            self.function, self.arguments = function, arguments
+        def __init__(self, id, function, arguments):
+            self.id, self.function, self.arguments = id, function, arguments
 
     class Msg:
-        def __init__(self, role="assistant", tool_calls=None):
-            self.role, self.tool_calls = role, tool_calls
+        def __init__(self, role="assistant", tool_calls=None, id=None):
+            self.role, self.tool_calls, self.id = role, tool_calls, id
 
     class Event:
         def __init__(self, message):
@@ -3251,7 +3251,7 @@ class TestTheTranscriptIsReadTooNotJustTheMessages(unittest.TestCase):
     ROOM = ["alpha", "beta"]
 
     def skill_call(self):
-        return self.Call("Skill", {"command": "alpha"})
+        return self.Call("t0", "Skill", {"command": "alpha"})
 
     def test_an_activation_only_in_the_messages_is_seen(self) -> None:
         sample = self.Sample(messages=[self.Msg(tool_calls=[self.skill_call()])])
